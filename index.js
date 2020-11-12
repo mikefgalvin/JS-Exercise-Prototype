@@ -105,24 +105,37 @@ Car.prototype.fill = function(gallons){
 }
 
 Car.prototype.drive = function(distance){
-  this.odometer += distance;
-  for(let i = distance / this.milesPerGallon; i > 0 || this.tank > 0; i--){
-    if(this.tank === 0){
-      console.log(`I ran out of fuel at ${this.odometer} miles!`);
-      return `I ran out of fuel at ${this.odometer} miles!`;
-    }
-  }
   
+  if(distance >= (this.tank * this.milesPerGallon)){
+    this.odometer = this.odometer + (this.tank * this.milesPerGallon);
+    this.tank = 0;
+    console.log(`I ran out of fuel at ${this.odometer} miles!`);
+    return `I ran out of fuel at ${this.odometer} miles!`;
+  }
+  else if(distance < (this.tank * this.milesPerGallon)){
+    this.odometer = this.odometer + distance;
+    this.tank = ((this.tank * this.milesPerGallon) - distance) / this.milesPerGallon;
+  }
+
   // this.odometer += distance;
+
+
+  // for(let i = distance / this.milesPerGallon; i > 0 || this.tank > 0; i--){
+  //   if(this.tank === 0){
+  //     console.log(`I ran out of fuel at ${this.odometer} miles!`);
+  //     return `I ran out of fuel at ${this.odometer} miles!`;
+  //   }
+  // }
+  
   // this.tank = ((this.tank * this.milesPerGallon) - distance) / this.milesPerGallon;
  
 }
 
 const carOne = new Car('Bronco', 10);
 
-carOne.fill(10);
+carOne.fill(15);
 console.log('Tank', carOne.tank);
-carOne.drive(150);
+carOne.drive(160);
 console.log('Odometer', carOne.odometer);
 console.log('Tank 2',carOne.tank);
 
